@@ -15,19 +15,22 @@ class AbstractReportGenerator(object):
 	def finalize(self):
 		pass
 	
-class OutputBuilder(object):
+class AbstractOutputBuilder(object):
 	__metaclass__ = abc.ABCMeta
 
+	@abc.abstractmethod
 	def add(self, obj):
 		pass
 	
+	@abc.abstractmethod
 	def done(self):
 		pass
 
+	@abc.abstractmethod
 	def clear(self):
 		pass
 
-class LBStringOutputBuilder(OutputBuilder):
+class LBStringOutputBuilder(AbstractOutputBuilder):
 	def __init__(self):
 		self.lines = []
 	
