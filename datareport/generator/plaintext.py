@@ -1,8 +1,8 @@
-import DataReport
+from .abstract import AbstractReportGenerator
 
-class PlaintextReportGenerator(DataReport.AbstractReportGenerator):
-	def __init__(self):
-		self._output_builder = DataReport.LBStringOutputBuilder()
+class PlaintextReportGenerator(AbstractReportGenerator):
+	def __init__(self, builder):
+		self._output_builder = builder
 
 	def generate(self, report):
 		self.add_title(report.title)
@@ -13,7 +13,7 @@ class PlaintextReportGenerator(DataReport.AbstractReportGenerator):
 
 	def write(self, line):
 		self._output_builder.add(line)
-	
+
 	def finalize(self):
 		return self._output_builder.done()
 
@@ -42,26 +42,23 @@ class PlaintextReportGenerator(DataReport.AbstractReportGenerator):
 
 	def add_line(self, line):
 		self.write(line)
-	
+
 	def add_title(self, title):
 		self.add_line("==================================")
 		self.add_line(title)
 		self.add_line("==================================")
 		self.add_line(" ")
-	
+
 	def add_subtitle(self, subtitle):
 		self.add_line(" ")
-		self.add_line("(%s)" % subtitle)
+		self.add_line("({})".format(subtitle))
 		self.add_line("----------------------------------")
-	
-	def add_header(self, header):
-		self.add_line("%s" % header)
-	
-	def add_subline(self, subline):
-		self.add_line("\t%s" % subline)
-	
-	def add_namevalue_line(self, name, value):
-		self.add_line("%(name)s: %(value)s" % {"name": name, "value": value})
 
-def create():
-	return PlaintextReportGenerator()
+	def add_header(self, header):
+		self.add_line("{}".format(header))
+
+	def add_subline(self, subline):
+		self.add_line("\t{}".format(subline))
+
+	def add_namevalue_line(self, name, value):
+		self.add_line("{}: {}".format(name, value))
