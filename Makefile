@@ -1,3 +1,9 @@
+SHELL := /bin/bash
+
+.PHONY: init test clean
+
+all: init test
+
 init:
 	virtualenv --no-site-packages --distribute -p python3 env
 	. env/bin/activate; pip install -r requirements.txt
